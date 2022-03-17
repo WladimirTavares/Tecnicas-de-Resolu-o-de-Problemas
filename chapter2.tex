@@ -1,0 +1,369 @@
+\chapter[Divisão e Conquista]{Divisão e Conquista} 
+
+A divisão e conquista é uma das técnicas mais utilizadas para resolução de problemas computacionais. O esquema geral para resolução de problemas utilizando essa técnica consiste nos seguintes passos:
+
+\begin{itemize}
+    \item Divisão: Um problema é dividido em vários subproblemas do mesmo tipo com aproximadamente o mesmo tamanho.
+    \item Os subproblemas são resolvidos de maneira recursiva.
+    \item Se necessário, as soluções do subproblemas são combinadas para conseguir uma solução do problema original.
+\end{itemize}
+
+\section{Mergesort}
+
+\begin{exemplo}
+Dado um vetor não ordenado $A[0 \ldots n-1]$, ordene o vetor utilizando o algoritmo de mergesort.
+\end{exemplo}
+
+No algoritmo mergesort, um  vetor $A[start \ldots end]$ de tamanho maior que 1 é ordenado da seguinte maneira:
+
+\begin{itemize}
+    \item O vetor é dividido em duas metades:
+    \begin{itemize}
+    \item $A[start \ldots \lfloor (start+end)/2 \rfloor ]$ 
+    \item $A[ \lceil (start+end)/2 \rceil \ldots end ]$
+    \end{itemize}
+    \item Cada metade é resolvida utilizando o próprio algoritmo mergesort.
+    \item Em seguida, os dois vetores ordenados são combinados para produzir um único vetor ordenado.
+\end{itemize}
+
+O algoritmo do mergesort é descrito em pseudocódigo pelo Algoritmo \ref{alg::mergesort}
+
+\begin{algorithm}
+\caption{Mergesort}
+\label{alg::mergesort}
+
+\begin{algorithmic}
+\Require Um vetor $A[start \ldots end]$ com elementos que podem ser comparados e dois inteiros $start$ e $end$
+\Ensure O subvetor $A[start \ldots end]$ ordenado em ordem não decrescente.
+\If{$q-p > 1$ }
+    \State $mid \gets \lfloor (p+q)/2 \rfloor$
+    \State $mergesort(A, start, mid )$
+    \State $mergesort(A, mid + 1, end )$
+    \State $merge(A, start, mid, end)$
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+
+O processo de entrelaçamento dos dois vetores ordenado pode ser descrito da seguinte maneira: dois índices são inicializados no ínicio de cada vetor ordenado. Os elementos apontados pelos índices são comparados e o menor deles é adicionado no novo vetor, o índice do menor elemento é incrementado. Essa operação é realizada até que um dos vetores acabe seus elementos. Em seguida, os elementos do vetor não vazio são copiados para o novo vetor. No final, o novo vetor é copiado para o vetor orginal. O algoritmo de merge dos dois vetores ordenados está descrito em pseudocódigo no Algoritmo \ref{alg::merge}.
+
+
+
+\begin{algorithm}[!h]
+\caption{Merge}
+\label{alg::merge}
+
+\begin{algorithmic}
+\Require Um vetor $A[start \ldots end]$ com elementos que podem ser comparados e três inteiros $start$, $mid$ e $end$
+\Ensure O subvetor $A[start \ldots end]$ ordenado em ordem não decrescente.
+
+\State $start1 \gets start$
+\State $start2 \gets mid+1$
+\State $start3 \gets 0$
+\State Seja B um vetor de tamanho $end-start+1$
+\While{ start1 <= mid \textbf{and} start2 <= end}
+\If{A[start1] < A[start2]}
+\State $B[start3] \gets A[start1]$; $start1 \gets start1 + 1$
+\Else 
+\State $B[start3] \gets A[start2]$; $start2 \gets start2 + 1$
+\EndIf
+\State $start3 \gets start3 + 1$
+\EndWhile
+
+\While{ start1 <= mid}
+\State $B[start3] \gets A[start1]$; $start1 \gets start1 + 1$; $start3 \gets start3 + 1$
+\EndWhile 
+
+\While{ start2 <= mid}
+\State $B[start3] \gets A[start2]$; $start2 \gets start2 + 1$; $start3 \gets start3 + 1$
+\EndWhile 
+
+\State $k \gets 0$
+\For{$i \gets start$ \textbf{to} end}
+\State $A[i] \gets B[k]$; $k \gets k + 1$
+\EndFor
+
+
+\end{algorithmic}
+\end{algorithm}
+
+
+O vetor é modificado durante a execução do algoritmo de merge, vamos mostrar o processo de ordenação mostrando todas as transformações realizadas pelo algoritmo merge considerando a seguinte entrada  $[1,2,1,3,5,3,2,1]$:
+
+\begin{center}
+\begin{tabular}{l|l|l}
+Função    & Entrada & Vetor resultado\\
+\hline 
+merge     &  [1], [2] & [1,2] \\
+merge     &  [1] ,[3] & [1,3] \\
+merge     &  [1,2], [1,3] & [1,1,2,3] \\
+merge     &  [5] ,[3] & [3,5] \\
+merge     &  [2] ,[1] & [1,2] \\
+merge     &  [3,5], [1,2] & [1,2,3,5] \\
+merge     &  [1,1,2,3] ,[1,2,3,5] & [1,1,1,2,2,3,3,5] \\
+\end{tabular}
+\end{center}
+
+
+Muitos problemas podem ser resolvidos facilmente quando recebemos um vetor já ordenado. No próximo exemplo, adaptaremos o algoritmo de mergesort para executar uma tarefa que pode ser realizada de maneira bastante rápida quando consideramos o vetor ordenado.
+
+
+\section{Mergecount}
+
+\begin{exemplo}
+Dado um vetor não ordenado $A[0 \ldots n-1]$, devolva a quantidade elementos repetidos no vetor. Por exemplo,
+
+\begin{itemize}
+\item Dado A = {1,2,1,3,5,3,2,1}, temos 4 repetições.
+\item Dado A = {1,2,1,3,5,3,2,1,2}, temos 5 repetições.
+\end{itemize}
+
+\end{exemplo}
+
+
+No algoritmo mergecount, um  vetor $A[start \ldots end]$ de tamanho maior que 1 é ordenado da seguinte maneira:
+
+\begin{itemize}
+    \item O vetor é dividido em duas metades:
+    \begin{itemize}
+    \item $A[start \ldots \lfloor (start+end)/2 \rfloor ]$ 
+    \item $A[ \lceil (start+end)/2 \rceil \ldots end ]$
+    \end{itemize}
+    \item Em cada metade, contaremos a quantidade de repetições de elementos em cada metade.
+    \item Em seguida, contaremos a quantidade de repetições de elementos que aparecem em metades distintas.
+\end{itemize}
+
+
+\begin{algorithm}
+\caption{Mergecount}
+\label{alg::mergecount}
+
+\begin{algorithmic}
+\Require Um vetor $A[start \ldots end]$ com elementos que podem ser comparados e dois inteiros $start$ e $end$
+\Ensure O subvetor $A[start \ldots end]$ ordenado em ordem não decrescente e devolve a quantidade de repetições no subvetor $A[start \ldots end]$.
+\If{$q-p > 1$ }
+    \State $mid \gets \lfloor (p+q)/2 \rfloor$
+    \State $p1 \gets mergecount(A, start, mid )$
+    \State $p2 \gets mergecount(A, mid + 1, end )$
+    \State $p3 \gets merge(A, start, mid, end)$
+    \State \Return p1 + p2 + p3
+\Else
+    \State \Return 0
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+Agora, precisamos adaptar o algoritmo de merge para contar a quantidade de elementos repetidos entre vetores ordenados.
+
+\begin{algorithm}[!h]
+\caption{Merge}
+\label{alg::merge}
+
+\begin{algorithmic}
+\Require Um vetor $A[start \ldots end]$ com elementos que podem ser comparados e três inteiros $start$, $mid$ e $end$
+\Ensure O subvetor $A[start \ldots end]$ ordenado em ordem não decrescente.
+
+\State $start1 \gets start$
+\State $start2 \gets mid+1$
+\State $start3 \gets 0$
+\State Seja B um vetor de tamanho $end-start+1$
+\State $cont \gets 0$
+\While{ start1 <= mid \textbf{and} start2 <= end}
+
+
+
+\If{A[start1] < A[start2]}
+\State $B[start3] \gets A[start1]$; $start1 \gets start1 + 1$
+\Else 
+\If{ A[start1] == A[start2]}
+\State $cont \gets cont + 1$
+
+\EndIf
+
+\State $B[start3] \gets A[start2]$; $start2 \gets start2 + 1$
+\EndIf
+\State $start3 \gets start3 + 1$
+\EndWhile
+
+\While{ start1 <= mid}
+\State $B[start3] \gets A[start1]$; $start1 \gets start1 + 1$; $start3 \gets start3 + 1$
+\EndWhile 
+
+\While{ start2 <= mid}
+\State $B[start3] \gets A[start2]$; $start2 \gets start2 + 1$; $start3 \gets start3 + 1$
+\EndWhile 
+
+\State $k \gets 0$
+\For{$i \gets start$ \textbf{to} end}
+\State $A[i] \gets B[k]$; $k \gets k + 1$
+\EndFor
+
+\State \Return $cont$
+
+
+\end{algorithmic}
+\end{algorithm}
+
+
+Todas as repetições são contadas pelo algoritmo de merge, vamos mostrar o resultado de todas as contagem realizada pelo algoritmo merge considerando a seguinte entrada  $[1,2,1,3,5,3,2,1]$:
+
+\begin{center}
+\begin{tabular}{l|l|l}
+Função    & Entrada & Número de repetições\\
+\hline 
+merge     &  [1], [2] & 0 \\
+merge     &  [1] ,[3] & 0 \\
+merge     &  [1,2], [1,3] & 1 \\
+merge     &  [5] ,[3] & 0 \\
+merge     &  [2] ,[1] & 0 \\
+merge     &  [3,5], [1,2] & 0 \\
+merge     &  [1,1,2,3] ,[1,2,3,5] & 3 \\
+\end{tabular}
+\end{center}
+
+O total de repetições calculada pelo Algoritmo é 4.
+
+\section{Quicksort}
+
+\begin{exemplo}
+Dado um vetor não ordenado $A[0 \ldots n-1]$, ordene o vetor utilizando o algoritmo de quicksort.
+\end{exemplo}
+
+
+O algoritmo de quicksort é um outro exemplo de algoritmo de divisão e conquista. O algoritmo do quicksort pode ser descrito da seguinte maneira:
+
+\begin{itemize}
+    \item Utilizando um elemento particular do vetor chamado de pivô,o vetor é particionado em duas partes: os elementos menores que o pivô e os elementos maiores que o pivô.
+    \item Cada parte é ordenado de maneira recursiva.
+\end{itemize}
+
+O pseudocódigo do algoritmo do quicksort é o seguinte:
+
+
+\begin{algorithm}
+\caption{Quicksort}
+\label{alg::quicksort}
+
+\begin{algorithmic}
+\Require Um vetor $A[start \ldots end]$ com elementos que podem ser comparados e dois inteiros $start$ e $end$ representando índices do vetor A.
+\Ensure O subvetor $A[start \ldots end]$ ordenado em ordem não decrescente.
+\If{$q-p > 1$ }
+    \State $j \gets particiona(A, start, end)$
+    \State $quicksort(A, start, j-1 )$
+    \State $quicksort(A, j + 1, end )$
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}
+\caption{particiona(A, start, end)}
+\label{alg::particiona}
+
+\begin{algorithmic}
+\Require Um vetor $A[start \ldots end]$ com elementos que podem ser comparados e dois inteiros $start$ e $end$ representando índices do vetor A.
+\Ensure devolve o índice j tal que $A[i] \leq pivô \forall i \leq j$ e  $A[i] \geq pivô \forall i \geq j$
+
+\State $j \gets start$
+\State $pivo \gets A[end]$
+
+\For{$k \gets start$ \textbf{to} end-1}
+\If{$A[k] \leq pivo$}
+\State $A[k] \leftrightarrow A[j]$
+\State $j \gets j + 1$
+\EndIf
+\EndFor
+
+\State $A[j] \leftrightarrow A[end]$
+\State \Return j
+
+\end{algorithmic}
+\end{algorithm}
+
+\section{Quickcount}
+
+\begin{exemplo}
+Dado um vetor não ordenado $A[0 \ldots n-1]$, devolva a quantidade elementos repetidos no vetor adaptando o algoritmo do quicksort. Por exemplo,
+
+\begin{itemize}
+\item Dado A = {1,2,1,3,5,3,2,1}, temos 4 repetições.
+\item Dado A = {1,2,1,3,5,3,2,1,2}, temos 5 repetições.
+\end{itemize}
+
+\end{exemplo}
+
+
+O adaptação do algoritmo do quicksort pode ser descrito da seguinte maneira:
+
+\begin{itemize}
+    \item Utilizando um elemento particular do vetor chamado de pivô,o vetor é particionado em três partes: os elementos menores que o pivô,  os elementos iguais ao pivô e os elementos maiores ou iguais que o pivô.
+    \item Cada parte é ordenado de maneira recursiva e devolve a quantidade de elementos repetidos em cada parte.
+\end{itemize}
+
+\begin{algorithm}
+\caption{Quickcount}
+\label{alg::quickcount}
+
+\begin{algorithmic}
+\Require Um vetor $A[start \ldots end]$ com elementos que podem ser comparados e dois inteiros $start$ e $end$ representando índices do vetor A.
+\Ensure O subvetor $A[start \ldots end]$ ordenado em ordem não decrescente.
+\If{$end-start > 1$ }
+    \State $particiona2(A, start, end, start1, end1)$
+    \State $p1 \gets quicksort(A, start, start1-1 )$
+    \State $p2 \gets quicksort(A, end1+1, end )$
+    \State \Return p1 + p2 + end1 - start1
+\Else 
+    \State \Return 0
+\EndIf
+
+\end{algorithmic}
+\end{algorithm}
+
+
+O algoritmo particiona2 chama o algoritmo particiona para separa em duas partes. Em seguida, particiona a segunda parte em mais duas partes. O ínicio e o fim da parte central é devolvida pela função particiona2 através das variáveis start1 e end1.
+
+
+\begin{algorithm}
+\caption{particiona2(A, start, end, start1, end1)}
+\label{alg::particiona}
+
+\begin{algorithmic}
+\Require Um vetor $A[start \ldots end]$ com elementos que podem ser comparados e dois inteiros $start$ e $end$ representando índices do vetor A.
+\Ensure devolve o índice j tal que $A[i] \leq pivô \forall i \leq j$ e  $A[i] \geq pivô \forall i \geq j$
+
+\State $start1 \gets particiona(A, start, end)$
+\State $j \gets start1$
+\State $pivo \gets A[j]$
+
+\For{$k \gets start1$ \textbf{to} end}
+\If{$A[k] == pivo$}
+\State $A[k] \leftrightarrow A[j]$
+\State $j \gets j + 1$
+\EndIf
+\EndFor
+
+\State $end1 \gets j$
+
+
+\end{algorithmic}
+\end{algorithm}
+
+
+Todas as repetições são contadas pelo algoritmo particiona2, vamos mostrar o resultado de todas as contagem realizada pelo algoritmo particiona2 considerando a seguinte entrada  $[1,2,1,3,5,3,2,1]$:
+
+\begin{center}
+\begin{tabular}{l|l|l|l}
+Entrada & Pivô & Particões & Número de repeticões\\
+\hline
+$[1,2,1,3,5,3,2,1]$ & $1$ & $[],[1,1,1],[3,5,3,2,2]$ & $2$\\
+$[3,5,3,2,2]$ & $2$ & $[],[2,2],[3,5,3]$ & $1$\\
+$[3,5,3]$ & $5$ & $[3,3],[5],[]$ & $0$\\
+$[3,3]$ & $3$ & $[],[3,3],[]$ & $1$\\
+
+
+\end{tabular}
+\end{center}
+
+O total de repetições calculada pelo Algoritmo é 4.
+
+

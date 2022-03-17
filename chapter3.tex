@@ -1,0 +1,17 @@
+\chapter[Algoritmo Guloso]{Algoritmo Guloso}
+
+Um algoritmo é dito guloso quando ele consegue construir uma solução ótima fazendo a cada passo uma decisão gulosa. Em geral, os algoritmos gulosos realizam uma ordenação da entrada para tornar a decisão gulosa mais eficiente.
+
+
+\begin{exemplo}
+Dado um sistema de moedas M = <1,5,10,25,50> um inteiro N. Encontre $(\alpha_1, \alpha_2, \ldots, \alpha_m)$ tal que 
+
+\begin{align*}
+min &  \sum_{i=1}^{m} \alpha_i\\
+st. & \sum_{i = 1}^{m} \alpha_i*c_i = N\\
+    & \alpha_i \in \mathbb{Z}\\
+\end{align*}
+
+\end{exemplo}
+
+Uma estratégia gulosa para o problema acima seria tentar utilizar primeiro as moedas com o maior valor primeiro.

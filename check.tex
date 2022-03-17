@@ -1,0 +1,379 @@
+%% Usage: latex check.tex
+%%
+%% Utility to test if all the files required for WSPC book 9x6 project
+%% are available in your present LaTeX path.
+%%
+%% - ws-book9x6.cls
+%% - ws-crop9x6.sty
+%% - ws-book-har.sty
+%% - ws-book-var.sty
+%% - ws-book-har.bst
+%% - ws-book-van.bst
+%% - ws-multind.sty
+%% - ws-book-thm.sty
+%% - rotating.sty
+%% - crop.sty
+%% - hyperref.sty
+%% - boxedminipage.sty
+%% - makeidx.sty
+
+\newif\onerror
+\typeout{*}
+\typeout{1. Searching for LaTeX2e ... }
+\ifx\documentclass\undefined
+ \typeout{*}
+ \typeout{* Fatal error occurred:}
+ \typeout{*}
+ \typeout{* The WS Book class can only be used with LaTeX2e}
+ \typeout{*}
+ \typeout{* Stopping...}
+ \expandafter\stop
+\else
+ \typeout{   ... ok}
+\fi
+
+\def\next#1/#2/#3\next{#1#2}
+\typeout{ }
+\typeout{2.  Searching for LaTeX2e version ... }
+\ifnum\expandafter\next\fmtversion\next<199612 \relax
+ \typeout{*}
+ \typeout{* Fatal error occurred:}
+ \typeout{*}
+ \typeout{* Your LaTeX version is quite outdated, \fmtversion.}
+ \typeout{* The WS Book class can only be used with a recent version}
+ \typeout{* of LaTeX2e, please upgrade your installation!}
+ \typeout{*}
+ \expandafter\stop
+\else
+ \ifnum\expandafter\next\fmtversion\next<199806 \relax
+   \typeout{* Warning: }
+   \typeout{*}
+   \typeout{* Your LaTeX version is outdated, \fmtversion.}
+   \typeout{* We believe that it will probably work, but if you encounter}
+   \typeout{* problems you will need upgrade your installation.}
+   \typeout{*}
+   \typein{* Type <return> to continue ...}
+   \errortrue
+ \else
+   \typeout{   ... ok}
+ \fi
+\fi
+
+\typeout{ }
+\typeout{3. Searching for ws-book9x6.cls ... }
+\IfFileExists{ws-book9x6.cls}
+    {
+     \typeout{  ... ok}
+    }
+    {
+     \typeout{* ... ws-book9x6.cls, file not found! }
+     \typeout{*}
+     \typeout{* Fatal error occurred:}
+     \typeout{*}
+     \typeout{* The ws-book9x6 class file which is part of the WS Books distribution}
+     \typeout{* must be installed in a directory which is searched by LaTeX.}
+     \typeout{*}
+     \typeout{* Stopping...}
+     \typeout{*}
+     \stop
+}
+
+\typeout{ }
+\typeout{4. Searching for ws-crop9x6.sty ... }
+\IfFileExists{ws-crop9x6.sty}
+    {
+     \typeout{  ... ok}
+    }
+    {
+     \typeout{  ... ws-crop9x6.sty, file not found! }
+     \typeout{ }
+     \typeout{* Warning:}
+     \typeout{*}
+     \typeout{* The ws-crop9x6 file which is part of the WS Books distribution}
+     \typeout{* must be installed in a directory which is searched by LaTeX.}
+     \typeout{*}
+     \typeout{* Without this package you will not be able to typeset }
+     \typeout{* your book in 9x6 trim size.}
+     \typeout{*}
+     \typeout{*}
+     \typein{* Type <return> to continue ...}
+     \errortrue
+    }
+
+\typeout{ }
+\typeout{5. Searching for ws-book-har.sty ... }
+\IfFileExists{ws-book-har.sty}
+    {
+     \typeout{  ... ok}
+    }
+    {
+     \typeout{  ... ws-book-har.sty, file not found! }
+     \typeout{ }
+     \typeout{* Warning:}
+     \typeout{*}
+     \typeout{* The ws-book-har file which is part of the WS Books distribution}
+     \typeout{* must be installed in a directory which is searched by LaTeX.}
+     \typeout{*}
+     \typeout{* Without this package you will not be able to typeset }
+     \typeout{* your references in WS author-date format.}
+     \typeout{*}
+     \typeout{*}
+     \typein{* Type <return> to continue ...}
+     \errortrue
+    }
+
+\typeout{ }
+\typeout{6. Searching for ws-book-van.sty ... }
+\IfFileExists{ws-book-van.sty}
+    {
+     \typeout{  ... ok}
+    }
+    {
+     \typeout{  ... ws-book-van.sty, file not found! }
+     \typeout{ }
+     \typeout{* Warning:}
+     \typeout{*}
+     \typeout{* The ws-book-van file which is part of the WS Books distribution}
+     \typeout{* must be installed in a directory which is searched by LaTeX.}
+     \typeout{*}
+     \typeout{* Without this package you will not be able to typeset }
+     \typeout{* your references in WS numbered format.}
+     \typeout{*}
+     \typeout{*}
+     \typein{* Type <return> to continue ...}
+     \errortrue
+    }
+
+\typeout{ }
+\typeout{7. Searching for ws-book-har.bst ... }
+\IfFileExists{ws-book-har.bst}
+    {
+     \typeout{  ... ok}
+    }
+    {
+     \typeout{  ... ws-book-har.bst, file not found! }
+     \typeout{ }
+     \typeout{* Warning:}
+     \typeout{*}
+     \typeout{* The BiBTeX style file, ws-book-har.bst which is part of the}
+     \typeout{* WS Books distribution must be installed in a directory which}
+     \typeout{* is searched by LaTeX.}
+     \typeout{*}
+     \typeout{* Without this package you will not be able to BiBTeX your references}
+     \typeout{* in WS author-date format. If you are not a BiBTeX user you may}
+     \typeout{* ignore this warning message.}
+     \typeout{*}
+     \typeout{*}
+     \typein{* Type <return> to continue ...}
+     \errortrue
+    }
+
+\typeout{ }
+\typeout{8. Searching for ws-book-van.bst ... }
+\IfFileExists{ws-book-van.bst}
+    {
+     \typeout{  ... ok}
+    }
+    {
+     \typeout{  ... ws-book-van.bst, file not found! }
+     \typeout{ }
+     \typeout{* Warning:}
+     \typeout{*}
+     \typeout{* The BiBTeX style file, ws-book-van.bst which is part of the WS Books distribution}
+     \typeout{* must be installed in a directory which is searched by LaTeX.}
+     \typeout{*}
+     \typeout{* Without this package you will not be able to BiBTeX your references}
+     \typeout{* in WS numbered format. If you are not a BiBTeX user you may}
+     \typeout{* ignore this warning message.}
+     \typeout{*}
+     \typeout{*}
+     \typein{* Type <return> to continue ...}
+     \errortrue
+    }
+
+\typeout{ }
+
+\typeout{9. Searching for ws-multind.sty ... }
+\IfFileExists{ws-multind.sty}
+    {
+     \typeout{  ... ok}
+    }
+    {
+     \typeout{  ... ws-multind.sty, file not found! }
+     \typeout{ }
+     \typeout{* Warning:}
+     \typeout{*}
+     \typeout{* The ws-multind package which is part of the WS Books distribution}
+     \typeout{* must be installed in a directory which is searched by LaTeX.}
+     \typeout{*}
+     \typeout{* You can use the ws-book9x6 class without this package but }
+     \typeout{* you can not use multiple indexes.}
+     \typeout{*}
+     \typeout{*}
+     \typein{* Type <return> to continue ...}
+     \errortrue
+    }
+
+\typeout{ }
+\typeout{10. Searching for ws-book-thm.sty ... }
+\IfFileExists{ws-book-thm.sty}
+    {
+     \typeout{  ... ok}
+    }
+    {
+     \typeout{  ... ws-book-thm.sty, file not found! }
+     \typeout{ }
+     \typeout{* Warning:}
+     \typeout{*}
+     \typeout{* The ws-book-thm package which is part of the WS Books distribution}
+     \typeout{* must be installed in a directory which is searched by LaTeX.}
+     \typeout{*}
+     \typeout{* You need this package to typeset your theorems in WS format.}
+     \typeout{* Alternate option is `amsmath` package.}
+     \typeout{*}
+     \typeout{*}
+     \typein{* Type <return> to continue ...}
+     \errortrue
+    }
+
+\typeout{ }
+
+\typeout{11. Searching for rotating.sty ... }
+\IfFileExists{rotating.sty}
+    {
+     \typeout{  ... ok}
+    }
+    {
+     \typeout{  ... rotating.sty, file not found! }
+     \typeout{ }
+     \typeout{* Warning:}
+     \typeout{*}
+     \typeout{* The rotating package, which should be part of a good LaTeX}
+     \typeout{* distribution, can not be found.}
+     \typeout{*}
+     \typeout{* Without this package you will not be able to use}
+     \typeout{* sidewaysfigure and sidewaystable environments.}
+     \typeout{* Try to download this package from a CTAN host.}
+     \typeout{* Go to http://www.ctan.org/search.html and search for "rotating".}
+     \typeout{*}
+     \typein{* Type <return> to continue ...}
+     \errortrue
+    }
+
+\typeout{ }
+\typeout{12. Searching for crop.sty ... }
+\IfFileExists{crop.sty}
+    {
+     \typeout{  ... ok}
+    }
+    {
+     \typeout{  ... crop.sty, file not found! }
+     \typeout{*}
+     \typeout{*}
+     \typeout{* The crop package, which should be part of a good LaTeX}
+     \typeout{* distribution, can not be found.}
+     \typeout{*}
+     \typeout{* This package is required for printing the crop marks.}
+     \typeout{* Try to download this package from a CTAN host.}
+     \typeout{* Go to http://www.ctan.org/search.html and search for "crop".}
+     \typeout{*}
+     \typeout{* Stopping...}
+     \typeout{*}
+     \stop
+}
+
+\typeout{ }
+\typeout{13. Searching for hyperref.sty ... }
+\IfFileExists{hyperref.sty}
+    {
+     \typeout{  ... ok}
+    }
+    {
+     \typeout{  ... hyperref.sty, file not found! }
+     \typeout{ }
+     \typeout{* Warning:}
+     \typeout{*}
+     \typeout{* The hyperref package, which should be part of a good LaTeX}
+     \typeout{* distribution, can not be found.}
+     \typeout{*}
+     \typeout{* Without this package you will not be able to produce a hyper-linked pdf output.}
+     \typeout{* Try to download this package from a CTAN host.}
+     \typeout{* Go to http://www.ctan.org/search.html and search for "hyperref".}
+     \typeout{*}
+     \typein{* Type <return> to continue ...}
+     \errortrue
+    }
+
+\typeout{ }
+\typeout{14. Searching for boxedminipage.sty ... }
+\IfFileExists{boxedminipage.sty}
+    {
+     \typeout{  ... ok}
+    }
+    {
+     \typeout{  ... boxedminipage.sty, file not found! }
+     \typeout{ }
+     \typeout{* Warning:}
+     \typeout{*}
+     \typeout{* The boxedminipage package, which should be part of a good LaTeX}
+     \typeout{* distribution, can not be found.}
+     \typeout{*}
+     \typeout{* Without this package you will not be able to use the boxedtxt}
+     \typeout{* environment. Try to download this package from a CTAN host.}
+     \typeout{* Go to http://www.ctan.org/search.html and search for "boxedminipage".}
+     \typeout{*}
+     \typein{* Type <return> to continue ...}
+     \errortrue
+    }
+
+\typeout{ }
+\typeout{15. Searching for makeidx.sty ... }
+\IfFileExists{makeidx.sty}
+    {
+     \typeout{  ... ok}
+    }
+    {
+     \typeout{  ... makeidx.sty, file not found! }
+     \typeout{ }
+     \typeout{* Warning:}
+     \typeout{*}
+     \typeout{* The makeidx package, which should be part of a good LaTeX}
+     \typeout{* distribution, can not be found.}
+     \typeout{*}
+     \typeout{* Without this package you will not be able to generate index.}
+     \typeout{* Try to download this package from a CTAN host.}
+     \typeout{* Go to http://www.ctan.org/search.html and search for "makeidx".}
+     \typeout{*}
+     \typein{* Type <return> to continue ...}
+     \errortrue
+    }
+
+\typeout{ }
+
+\typeout{* Finished Testing *}
+\typeout{ }
+\onerror
+\typeout{* Some of the file(s) required by WS was not found.}
+\typeout{* Please review the above comments carefully and update your system.}
+\typeout{*}
+\typeout{* WS files can be downloaded from:}
+\typeout{* http://www.worldscientific.com/page/authors/book-stylefiles}
+\typeout{*}
+\typeout{* Other TeX packages can be downloaded from:}
+\typeout{* http://www.ctan.org/search.html}
+\typeout{*}
+\typeout{* For technical support, please email Rajesh <rajesh@wspc.com.sg>}
+\typeout{*}
+\typeout{*****************************************************************}
+\typein{* Type <return> to continue ...} \else
+\typeout{*****************************************************************}
+\typeout{*}
+\typeout{* All the files and packages required by WS was found,}
+\typeout{* you may now proceed LaTeXing your files.}
+\typeout{*}
+\typeout{* For technical support, please email Rajesh <rajesh@wspc.com.sg>}
+\typeout{*}
+\typeout{*****************************************************************}
+\fi
+\stop
+\endinput
